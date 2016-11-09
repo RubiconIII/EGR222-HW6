@@ -48,10 +48,21 @@ public class Time {
     return PM;
     }
 
-    public void shift (int minutes){
-    minute += minutes;
-    }
-    public String toString(){
 
+    public void shift (int minutes) {
+
+            }
+
+    public String toString(){
+        String dayTime;
+
+        if (PM = true){
+            dayTime = "PM";
+        }
+
+        else if (PM = false){
+            dayTime = "AM";
+        }
+        System.out.println(hour + ":" + minute + "/ " + dayTime);
     }
 }
