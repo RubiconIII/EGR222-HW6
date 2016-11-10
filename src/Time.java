@@ -12,29 +12,35 @@ public class Time {
         this.PM = PM;
     }
 
-    public Time fromString (String timeString) throws IllegalArgumentException {
+    public static Time fromString (String timeString) throws IllegalArgumentException {
 
         String[] splitParts = timeString.split(":");
-        hour = Integer.parseInt(splitParts[0]);
+       int hour = Integer.parseInt(splitParts[0]);
 
         String[] secondString = splitParts[1].split(" ");
-        minute = Integer.parseInt(secondString[0]);
+        int minute = Integer.parseInt(secondString[0]);
 
         timeString = secondString[1];
 
         if (timeString.charAt(0) == 'a' || timeString.charAt(0) == 'A') {
-            PM = false;
+            boolean PM = false;
         }
         else if (timeString.charAt(0) == 'p' || timeString.charAt(0) == 'P') {
-            PM = true;
+           boolean PM = true;
         }
 
         return new Time (hour, minute, PM);
+
     }
 
-    public boolean equals (o) throws IllegalArgumentException{
-    if (Time() == Time())
+    public boolean equals (o) throws IllegalArgumentException {
+        if (o == Time()){
+        return true;
+        }
+
+        else return false;
     }
+
 
     public int getHour(){
     return hour;
@@ -50,8 +56,12 @@ public class Time {
 
 
     public void shift (int minutes) {
+        if(minutes < 0) {throw new IllegalArgumentException();
+        }
 
-            }
+    }
+
+
 
     public String toString(){
         String dayTime;
