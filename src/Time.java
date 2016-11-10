@@ -2,75 +2,100 @@
  * Created by curti_000 on 11/9/2016.
  */
 public class Time {
-    protected int hour;
-    protected int minute;
-    protected boolean PM;
+    private int hour;
+    private int minute;
+    private boolean isPM;
 
-    public Time(int hour, int minute, boolean PM){
+    private static void checkFormat(String str) {
+        if (str.length() != 8)
+            throw new IllegalArgumentException("length has too be 8");
+    }
+
+    public Time(int hour, int minute, boolean isPM) {
+        if (hour < 1 || hour > 12)
+            throw new IllegalArgumentException("hour should be 1-12");
+
+        if (minute < 0 || minute > 59)
+            throw new IllegalArgumentException("minute should be 0-59");
         this.hour = hour;
         this.minute = minute;
-        this.PM = PM;
+        this.isPM = isPM;
     }
 
-    public static Time fromString (String timeString) throws IllegalArgumentException {
+    public static Time fromString(String str) {
+        checkFormat(str);
+        int h = Integer.parseInt(str.substring(0, 2));
+        int m = Integer.parseInt(str.substring(3, 5));
+        String mStr = str.substring(6);
+        boolean b = mStr.equals("PM");
 
-        String[] splitParts = timeString.split(":");
-       int hour = Integer.parseInt(splitParts[0]);
+        return new Time(h, m, b);
+    }
 
-        String[] secondString = splitParts[1].split(" ");
-        int minute = Integer.parseInt(secondString[0]);
+    public int getHour() {
+        return hour;
+    }
 
-        timeString = secondString[1];
+    public int getMinute() {
+        return minute;
+    }
 
-        boolean PM;
-        if (timeString.charAt(0) == 'a' || timeString.charAt(0) == 'A') {
-            PM = false;
+    public boolean isPM() {
+        return isPM;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj != null && getClass() == obj.getClass()) {
+            Time other = (Time) obj;
+            return hour == other.hour && minute == other.minute && isPM;
         }
-        else if (timeString.charAt(0) == 'p' || timeString.charAt(0) == 'P') {
-            PM = true;
-        }
-        return Time(hour, minute, PM);
+        return false;
     }
 
-    public boolean equals (o) throws IllegalArgumentException {
-        if (o == new Time(hour, minute, PM)){
-        return true;
-        }
-        else return false;
-    }
-
-
-    public int getHour(){
-    return hour;
-    }
-
-    public int getMinute(){
-    return minute;
-    }
-
-    public boolean isPM(){
-    return PM;
+    @Override
+    public int hashCode() {
+        int result = 17;
+        result = 31 * result + (isPM ? 1 : 0);
+        result = 31 * result + minute;
+        result = 31 * result + hour;
+        return result;
     }
 
 
-    public void shift (int minutes) {
-        if(minutes < 0) {throw new IllegalArgumentException();
-        }
+    public void shift(int minutes) {
+        if (minutes < 0)
+            throw new IllegalArgumentException("minutes should not be negative");
 
+        minute += minutes;
+        int hoursToAdd = minute / 60 % 24;
+        minute %= 60;
+
+        if (hoursToAdd == 0) return;
+
+        int adjustedHour = hour;
+        if (adjustedHour == 12) adjustedHour = 0;
+        adjustedHour += hoursToAdd;
+
+        int numFlip = adjustedHour/12;
+
+        if (numFlip%2 == 1)
+            isPM = !isPM;
+
+        hour += hoursToAdd;
+        hour %= 12;
+        if(hour ==0) hour =12;
     }
 
-
-
-    public String toString(){
+    public String toString () {
         String dayTime;
 
-        if (PM = true){
+        if (isPM = true)
             dayTime = "PM";
-        }
 
-        else if (PM = false){
+        else
             dayTime = "AM";
-        }
-        System.out.println(hour + ":" + minute + "/ " + dayTime);
+
+        return (hour + ":" + minute + "/ " + dayTime);
     }
 }
