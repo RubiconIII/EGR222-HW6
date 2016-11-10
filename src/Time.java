@@ -22,22 +22,20 @@ public class Time {
 
         timeString = secondString[1];
 
+        boolean PM;
         if (timeString.charAt(0) == 'a' || timeString.charAt(0) == 'A') {
-            boolean PM = false;
+            PM = false;
         }
         else if (timeString.charAt(0) == 'p' || timeString.charAt(0) == 'P') {
-           boolean PM = true;
+            PM = true;
         }
-
-        return new Time (hour, minute, PM);
-
+        return Time(hour, minute, PM);
     }
 
     public boolean equals (o) throws IllegalArgumentException {
-        if (o == Time()){
+        if (o == new Time(hour, minute, PM)){
         return true;
         }
-
         else return false;
     }
 
