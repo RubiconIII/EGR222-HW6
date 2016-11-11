@@ -6,6 +6,7 @@ public class Time {
     private int minute;
     private boolean isPM;
 
+    //check format of inputted time string to see if fits given constraints
     private static void checkFormat(String str) {
         if (str.length() != 8)
             throw new IllegalArgumentException("length has too be 8");
@@ -27,7 +28,7 @@ public class Time {
         }
         }
 
-
+    //time constructor
     public Time(int hour, int minute, boolean isPM) {
         if (hour < 1 || hour > 12)
             throw new IllegalArgumentException("hour should be 1-12");
@@ -39,6 +40,7 @@ public class Time {
         this.isPM = isPM;
     }
 
+    //converts string to time object
     public static Time fromString(String str) {
         checkFormat(str);
         int h = Integer.parseInt(str.substring(0, 2));
@@ -49,18 +51,22 @@ public class Time {
         return new Time(h, m, b);
     }
 
+    //accessor for hour
     public int getHour() {
         return hour;
     }
 
+    //accessor for minute
     public int getMinute() {
         return minute;
     }
 
+    //accessor for time of day bool
     public boolean isPM() {
         return isPM;
     }
 
+    //compares time object
     @Override
     public boolean equals(Object obj) {
         if (obj != null && getClass() == obj.getClass()) {
@@ -71,6 +77,7 @@ public class Time {
         return false;
     }
 
+    //hashcode for time object pieces
     @Override
     public int hashCode() {
         int result = 17;
@@ -80,7 +87,7 @@ public class Time {
         return result;
     }
 
-
+    //shifts time a given amount of minutes
     public void shift(int minutes) {
         if (minutes < 0)
             throw new IllegalArgumentException("minutes should not be negative");
@@ -105,6 +112,7 @@ public class Time {
         if(hour ==0) hour =12;
     }
 
+    //converts variables from time to string
     public String toString () {
         String dayTime;
 
