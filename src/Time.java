@@ -9,7 +9,24 @@ public class Time {
     private static void checkFormat(String str) {
         if (str.length() != 8)
             throw new IllegalArgumentException("length has too be 8");
-    }
+        try {
+            Integer.parseInt(str.substring(0,2)); //Hours
+            Integer.parseInt(str.substring(3,5)); //Minutes
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("These numbers are wrong");
+        }
+        if (str.charAt(2) != ':') {
+            throw new IllegalArgumentException("requires colon between times");
+        }
+        if (str.charAt(5) != ' ') {
+            throw new IllegalArgumentException("requires space between time and period");
+        }
+        String mStr = str.substring(6);
+        if (!mStr.equals("PM") && !mStr.equals("AM")) {
+            throw new IllegalArgumentException("Must be AM or PM");
+        }
+        }
+
 
     public Time(int hour, int minute, boolean isPM) {
         if (hour < 1 || hour > 12)
@@ -48,8 +65,9 @@ public class Time {
     public boolean equals(Object obj) {
         if (obj != null && getClass() == obj.getClass()) {
             Time other = (Time) obj;
-            return hour == other.hour && minute == other.minute && isPM;
+            return hour == other.hour && minute == other.minute && isPM == other.isPM;
         }
+        else
         return false;
     }
 
@@ -90,12 +108,14 @@ public class Time {
     public String toString () {
         String dayTime;
 
-        if (isPM = true)
+        if (isPM == true)
             dayTime = "PM";
 
         else
             dayTime = "AM";
 
-        return (hour + ":" + minute + "/ " + dayTime);
+        String hourString = String.format("%02d", hour);
+        String minString = String.format("%02d", minute);
+        return (hourString + ":" + minString + " " + dayTime);
     }
 }

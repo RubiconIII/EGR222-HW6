@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by mhan on 11/8/2016.
+ * Created by Curtis on 11/10/2016.
  */
 public class TimeTest {
 
@@ -20,9 +20,11 @@ public class TimeTest {
         //Given
         Time t = new Time(12, 59, true);
         Time t2 = new Time(1, 0, false);
+        Time t3 = new Time(5, 12, false);
         //When/Then
         assertHelper(12, 59, true, t);
         assertHelper(1, 0, false, t2);
+        assertHelper(5, 12, false, t3);
     }
 
     private void constNegativeHelper(int h, int m, boolean b){
@@ -40,6 +42,10 @@ public class TimeTest {
         constNegativeHelper(-5,59, false); //-5:59 AM is invalid
         constNegativeHelper(11,60, false); //11:60 AM is invalid
         constNegativeHelper(11,-1, false); //11:-1 AM is invalid
+
+        //added test cases
+        constNegativeHelper(2,-1, true);
+        constNegativeHelper(11111,111, false);
     }
 
     @Test
@@ -52,6 +58,13 @@ public class TimeTest {
 
         Time t3 = Time.fromString("05:05 PM");
         assertHelper(5, 5, true, t3);
+
+        //added test cases
+        Time t4 = Time.fromString("06:23 PM");
+        assertHelper(6, 23, true, t4);
+
+        Time t5 = Time.fromString("12:50 AM");
+        assertHelper(12, 50, false, t5);
     }
 
     @Test
@@ -65,6 +78,13 @@ public class TimeTest {
         Time t3 = new Time(6, 0, true);
         Assert.assertEquals("06:00 PM", t3.toString());
 
+        //added test cases
+        Time t4 = new Time(5, 41, true);
+        Assert.assertEquals("05:41 PM", t4.toString());
+
+        Time t5 = new Time(1, 0, false);
+        Assert.assertEquals("01:00 AM", t5.toString());
+
     }
 
     @Test
@@ -77,6 +97,16 @@ public class TimeTest {
         Assert.assertTrue(t.equals(t3));
         Assert.assertEquals(t.hashCode(), t2.hashCode());
         Assert.assertEquals(t3.hashCode(), t.hashCode());
+
+        //added test case
+        Time t4 = new Time(2, 0, false);
+        Time t5 = new Time(2, 0, false);
+        Time t6 = t4;
+        Assert.assertTrue(t4.equals(t5));
+        Assert.assertTrue(t5.equals(t4));
+        Assert.assertTrue(t4.equals(t6));
+        Assert.assertEquals(t4.hashCode(), t5.hashCode());
+        Assert.assertEquals(t6.hashCode(), t4.hashCode());
     }
 
     private void fromStringTestHelper(String str){
@@ -98,6 +128,11 @@ public class TimeTest {
         fromStringTestHelper("05:05 XX");
         fromStringTestHelper("13:59 PM");
         fromStringTestHelper("12:60 AM");
+
+        //added test cases
+        fromStringTestHelper("boi");
+        fromStringTestHelper("13:60 mA");
+        fromStringTestHelper("Dr. Han is the best");
     }
 
     @Test
@@ -106,6 +141,12 @@ public class TimeTest {
         Time t2 = new Time(5, 0, true);
         Assert.assertFalse(t.equals(t2));
         Assert.assertFalse(t2.equals(t));
+
+        //added test case
+        Time t3 = new Time(8, 0, false);
+        Time t4 = new Time(6, 4, true);
+        Assert.assertFalse(t3.equals(t4));
+        Assert.assertFalse(t4.equals(t3));
     }
 
     @Test
@@ -156,5 +197,6 @@ public class TimeTest {
 
         t.shift(172); //Add 2 hours 52 min
         Assert.assertEquals("12:00 AM", t.toString());
+
     }
 }
