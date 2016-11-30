@@ -1,7 +1,7 @@
 /**
  * Created by curti_000 on 11/9/2016.
  */
-public class Time {
+public class Time implements Cloneable, Comparable <Time> {
     private int hour;
     private int minute;
     private boolean isPM;
@@ -87,6 +87,32 @@ public class Time {
         return result;
     }
 
+    @Override
+    public Time clone(){
+        try {
+            return (Time) super.clone();
+        }
+        catch (CloneNotSupportedException e){
+            return null;
+        }
+    }
+
+   public int compareTo(Time time){
+      if (isPM() == time.isPM()) {
+          if (hour != time.hour) {
+              return hour % 12 - time.hour % 12;
+          }
+          else {
+              return minute - time.minute;
+          }
+      }
+      else if (isPM() && !time.isPM()){
+              return 1;
+          }
+      else if (!isPM() && time.isPM()){
+           return -1;
+      } else return 0;
+   }
     //shifts time a given amount of minutes
     public void shift(int minutes) {
         if (minutes < 0)
