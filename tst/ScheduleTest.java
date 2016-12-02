@@ -37,7 +37,6 @@ public class ScheduleTest {
             try {
                 s.add(c2);
             }catch (ScheduleConflictException e){
-                System.out.println("Good Exception Throw");
             }
 
             return s;
