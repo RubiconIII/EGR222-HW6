@@ -45,10 +45,11 @@ import java.io.*;
                     return c;
                 }
             }
-
             return null;
         }
 
+
+        //removes a course during given day and time
         public void remove(Weekday day, Time time) {
             for (int i = 0; i < this.schedule.size(); i++) {
                 Course c = this.schedule.get(i);
@@ -82,5 +83,10 @@ import java.io.*;
         public String toString() {
             return this.schedule.toString();
         }
+
+        public List<Course> getAllCourses(){
+            return schedule;
+        }
+
     }
 

@@ -20,6 +20,6 @@ public class CourseTimeComparator implements Comparator<Course> {
             return course1.getDuration() - course2.getDuration();
 
 
-        return course1.getName().compareTo(course2.getName());
+        return course1.getStartTime().compareTo(course2.getStartTime());
     }
 }
